@@ -8,7 +8,7 @@ FUNCTIONS_DIR=${1:-$SCRIPT_DIR}
 
 export DOCKER_BUILDKIT=1
 
-docker build -t cvat.openvino.base "$SCRIPT_DIR/openvino/base"
+podman build -t cvat.openvino.base "$SCRIPT_DIR/openvino/base"
 
 nuctl create project cvat --platform local
 
@@ -20,7 +20,7 @@ do
     func_rel_path="$(realpath --relative-to="$SCRIPT_DIR" "$(dirname "$func_root")")"
 
     if [ -f "$func_root/Dockerfile" ]; then
-        docker build -t "cvat.${func_rel_path//\//.}.base" "$func_root"
+        podman build -t "cvat.${func_rel_path//\//.}.base" "$func_root"
     fi
 
     echo "Deploying $func_rel_path function..."
